@@ -4,10 +4,13 @@ import { Task } from './shared/task';
 import { JwtAuthGuard } from './../auth/shared/jwt-auth.guard'
 import { identity } from 'rxjs';
 
+
 @Controller('tasks')
 export class TasksController {
 
-    constructor(private taskService: TaskService
+    constructor(
+        private taskService: TaskService,
+
     ) { }
     //@UseGuards(JwtAuthGuard)
     @Get()
@@ -29,7 +32,9 @@ export class TasksController {
     //@UseGuards(JwtAuthGuard)
     @Put(':id')
     async update(@Param('id') id: string, @Body() task: Task): Promise<Task> {
+
         return this.taskService.update(id, task);
+
     }
     //@UseGuards(JwtAuthGuard)
     @Delete(':id')
