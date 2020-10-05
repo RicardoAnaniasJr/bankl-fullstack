@@ -1,3 +1,4 @@
+import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
@@ -15,6 +16,7 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
       rootPath: join(__dirname, '..', 'front'),
     }),
     AuthModule,
+    UsersModule,
     MongooseModule.forRoot('mongodb+srv://admin:6BLVQ6pOmJmNAB23@cluster0.68syu.gcp.mongodb.net/testeTarefas?retryWrites=true&w=majority'),
     TasksModule,
     MailerModule.forRoot({
