@@ -5,7 +5,7 @@ import { JwtAuthGuard } from './../auth/shared/jwt-auth.guard'
 import { identity } from 'rxjs';
 
 
-@Controller('tasks')
+@Controller('api/tasks')
 export class TasksController {
 
     constructor(
