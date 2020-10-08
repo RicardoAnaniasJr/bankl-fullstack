@@ -10,18 +10,17 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
-import { MulterModule } from '@nestjs/platform-express/multer/multer.module';
+import { UploadModule } from './utils/upload.module';
 
 @Module({
   imports: [
+    UploadModule,
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'front'),
     }),
 
     AuthModule,
-    MulterModule.register({
-      dest: './files',
-    }),
+
     UsersModule,
     MongooseModule.forRoot('mongodb+srv://admin:6BLVQ6pOmJmNAB23@cluster0.68syu.gcp.mongodb.net/testeTarefas?retryWrites=true&w=majority'),
     TasksModule,
@@ -40,7 +39,7 @@ import { MulterModule } from '@nestjs/platform-express/multer/multer.module';
     }),
   ],
   controllers: [
-    UploadController, AppController],
+    AppController],
   providers: [AppService],
 })
 export class AppModule { }

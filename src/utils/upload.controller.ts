@@ -3,19 +3,31 @@ import { Get } from '@nestjs/common/decorators/http/request-mapping.decorator';
 import { Post } from '@nestjs/common/decorators/http/request-mapping.decorator';
 import { Res } from '@nestjs/common/decorators/http/route-params.decorator';
 import { Param } from '@nestjs/common/decorators/http/route-params.decorator';
-import { FileInterceptor } from '@nestjs/platform-express/multer/interceptors/file.interceptor';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { editFileName, imageFileFilter } from './fileUpload.utils';
-import { diskStorage } from 'multer';
+import { diskStorage, File } from 'multer';
 
 @Controller('api/images')
 export class UploadController {
 
 
-    // @Post()
-    // @UseInterceptors(FileInterceptor('file'))
-    // uploadFile(@UploadedFile() file) {
-    //     console.log(file);
-    // }
+    @Post('upload')
+    @UseInterceptors(
+        FileInterceptor('file', {
+            storage: diskStorage({
+                destination: './files'
+            })
+        }),
+    )
+    uploadFile(@UploadedFile() file) {
+        console.log(file);
+    };
+
+    @Get()
+    testRoute() {
+        const testRoute = 'ROTA ATINGIDA';
+        return testRoute
+    };
 
     @Post()
     @UseInterceptors(
@@ -31,23 +43,19 @@ export class UploadController {
     )
 
 
+
     uploadedFile(@UploadedFile() file) {
         //console.log(file)
         const response = {
-            originalname: 'file.originalname',
-            filename: 'file.filename',
-
+            originalname: file.originalname,
+            filename: file.filename,
         };
-
-
         return response;
-
-
     }
 
     @Get(':imgpath')
     seeUploadedFile(@Param('imgpath') image, @Res() res) {
         return res.sendFile(image, { root: './files' });
-    }
+    };
 
 }
