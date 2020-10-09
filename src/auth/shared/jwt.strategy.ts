@@ -1,6 +1,6 @@
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { jwtConstants } from './constants';
 
 @Injectable()
@@ -18,7 +18,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
             return { id: payload.sub, email: payload.email };
         } catch (error) {
             console.log(error);
-            alert('Usuario não encontrado!')
+            throw new HttpException({
+                status: HttpStatus.FORBIDDEN,
+                error: 'This is a custom message',
+            }, HttpStatus.FORBIDDEN);
         }
 
     };

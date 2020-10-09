@@ -1,5 +1,5 @@
 import { AuthService } from './shared/auth.service';
-import { Controller, UseGuards, Request, Post } from '@nestjs/common';
+import { Controller, UseGuards, Request, Post, HttpException, HttpStatus } from '@nestjs/common';
 import { LocalAuthGuard } from './shared/local-auth.guard'
 import { JwtAuthGuard } from './shared/jwt-auth.guard';
 @Controller()
@@ -17,7 +17,12 @@ export class AuthController {
         try {
             return this.authService.login(req.user);
         } catch (error) {
-            console.log(error + 'TESTE');
+
+            throw new HttpException({
+                status: HttpStatus.FORBIDDEN,
+                error: 'Senha ou Usuario incorretos',
+            }, HttpStatus.FORBIDDEN);
+
             // alert('tstet')
         }
 
